@@ -1,0 +1,80 @@
+services:
+  api:
+    container_name: api
+    build: .
+    volumes:
+      - ./src:/code/app
+    ports:
+      - "8000:8000"
+    working_dir: /code
+    depends_on:
+      - celery
+    environment:
+      - CELERY_BROKER_URL=${CELERY_BROKER_URL}
+      - CELERY_BACKEND_URL=${CELERY_BACKEND_URL}
+    command: uvicorn app.api.main:app --host 0.0.0.0 --port 8000 --reload
+    networks:
+      - jobs_distribuidos
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - jobs_distribuidos
+
+  celery:
+    build: .
+    depends_on:
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    command: celery -A app.celery.worker.celery worker -l info --concurrency=8 --prefetch-multiplier=4
+    volumes:
+      - ./src:/code/app
+    environment:
+      - CELERY_BROKER_URL=${CELERY_BROKER_URL}
+      - CELERY_BACKEND_URL=${CELERY_BACKEND_URL}
+    networks:
+      - jobs_distribuidos
+
+  redis:
+    restart: unless-stopped
+    image: redis:7.0.5-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - jobs_distribuidos
+
+  flower:
+    image: mher/flower
+    ports:
+      - "5555:5555"
+    depends_on:
+      - rabbitmq
+      - redis
+      - celery
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - CELERY_BROKER_URL=${CELERY_BROKER_URL}
+    networks:
+      - jobs_distribuidos
+
+networks:
+  jobs_distribuidos:
+
+volumes:
+  redis_volume:
