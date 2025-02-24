@@ -2,3 +2,4 @@ uvicorn
 fastapi
 celery
 redis
+locust

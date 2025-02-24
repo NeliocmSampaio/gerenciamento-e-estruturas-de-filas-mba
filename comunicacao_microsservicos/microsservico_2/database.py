@@ -3,19 +3,20 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import os
 
-# Cria a engine do SQLAlchemy, conectando-se ao banco de dados via URL definida nas variáveis de ambiente
-engine = create_engine(os.environ["DATABASE_URL_MICROSSERVICO_2"])
+# Obtém a URL do banco de dados da variável de ambiente
+DATABASE_URL = os.environ.get("DATABASE_URL_MICROSSERVICO_2")
 
-# Configura a sessão do banco de dados
+# Cria a engine para gerenciar a conexão com o banco
+engine = create_engine(DATABASE_URL)
+
+# Configura a sessão do SQLAlchemy
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-# Define a classe base para os modelos do SQLAlchemy
+# Define a classe base para os modelos ORM
 Base = declarative_base()
 
-# Cria a tabela no banco de dados se ela ainda não existir
-Base.metadata.create_all(bind=engine)
-
 def get_session():
+    """ Gera uma sessão de banco de dados e garante seu fechamento. """
     db = SessionLocal()
     try:
         yield db
