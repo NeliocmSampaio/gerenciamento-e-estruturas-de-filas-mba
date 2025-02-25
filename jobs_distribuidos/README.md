@@ -1,6 +1,6 @@
-# Ingestão de Dados
+# Jobs Distribuídos
 
-Este diretório demonstra o uso de filas em pipelines de ingestão e processamento de dados.
+Este diretório contém exemplos de implementação de filas para distribuição de tarefas assíncronas entre várias instâncias de processamento.
 
 ## Requisitos
 
@@ -13,7 +13,7 @@ Antes de iniciar, certifique-se de ter instalado em seu ambiente:
 
 1. Acesse a pasta do módulo:
    ```sh
-   cd ingestao_dados
+   cd jobs_distribuidos
    ```
 2. Inicie os containers com o Docker Compose:
    ```sh
@@ -26,15 +26,9 @@ Antes de iniciar, certifique-se de ter instalado em seu ambiente:
 
 ### Endpoints Disponíveis
 
-- **Kibana**: [http://localhost:5601](http://localhost:5601)
-- **Kafka Control Center**: [http://localhost:9021](http://localhost:9021)
+- **Flower (Monitoramento do Celery)**: [http://localhost:5555](http://localhost:5555)
+- **RabbitMQ**: [http://localhost:15672](http://localhost:15672)
+- **Locust (Teste de Carga)**: [http://localhost:8089](http://localhost:8089)
+- **API Principal**: [http://localhost:8000](http://localhost:8000)
 
 Caso não consiga acessar um endpoint usando `localhost`, tente `0.0.0.0` ou `127.0.0.1`.
-
-### Acessando o Banco de Dados PostgreSQL
-
-Para acessar o banco de dados dentro do container:
-
-```sh
-psql usuarios
-```

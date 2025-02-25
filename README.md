@@ -7,7 +7,7 @@ Este repositório está organizado em três módulos distintos, cada um abordand
 O repositório está dividido nas seguintes pastas:
 
 - **comunicacao_microsservicos**: Exemplos e práticas sobre filas aplicadas à comunicação entre microsserviços.
-- **ingestao_de_dados**: Demonstração do uso de filas em pipelines de ingestão e processamento de dados.
+- **ingestao_dados**: Demonstração do uso de filas em pipelines de ingestão e processamento de dados.
 - **jobs_distribuidos**: Implementação de filas para distribuição de tarefas assíncronas entre várias instâncias de processamento.
 
 Cada pasta possui seu próprio **README.md**, onde você encontrará instruções específicas para executar os exemplos.

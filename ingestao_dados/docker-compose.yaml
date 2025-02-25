@@ -17,9 +17,9 @@ services:
       - "host.docker.internal:172.17.0.1" # Permite comunicação com o host
     volumes:
       - postgres_data:/var/lib/postgresql/data # Persistência dos dados do banco
-    command: >
+    command:
+      > # Configuração para permitir replicação lógica, útil para streaming de dados
       postgres -c wal_level=logical -c max_replication_slots=10 -c max_wal_senders=10
-      # Configuração para permitir replicação lógica, útil para streaming de dados
 
   # Serviço do Zookeeper (necessário para o Kafka)
   zookeeper:

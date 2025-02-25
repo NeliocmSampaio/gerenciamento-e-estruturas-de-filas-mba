@@ -1,12 +1,12 @@
--- Criar a tabela users
-CREATE TABLE users (
+-- Criar a tabela usuarios
+CREATE TABLE usuarios (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
+    nome VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL
 );
 
 -- Inserir três usuários iniciais
-INSERT INTO users (name, email) VALUES 
+INSERT INTO usuarios (nome, email) VALUES 
 ('Alice Silva', 'alice@email.com'),
 ('Bruno Souza', 'bruno@email.com'),
 ('Carla Mendes', 'carla@email.com');
